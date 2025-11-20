@@ -9,17 +9,16 @@ export default defineConfig({
     tailwindcss(),
     VitePWA({
       registerType: "autoUpdate",
-      manifest: {
-        name: "Vocabulary Hafalan",
-        short_name: "Hafalan",
-        description: "Aplikasi hafalan Inggris-Indonesia offline",
-        theme_color: "#0f172a",
-        background_color: "#0f172a",
-        display: "standalone",
-        icons: [
-          { src: "/icon-192.png", sizes: "192x192", type: "image/png" },
-          { src: "/icon-512.png", sizes: "512x512", type: "image/png" },
-        ],
+      injectRegister: "auto",
+      manifest: false,
+      workbox: {
+        // PRECACHE semua file penting dari awal
+        globPatterns: ["**/*.{js,css,html,png,svg,json,woff2}"],
+        navigateFallback: "/index.html",
+        cleanupOutdatedCaches: true,
+      },
+      devOptions: {
+        enabled: true, // penting untuk dev
       },
     }),
   ],

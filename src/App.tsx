@@ -9,17 +9,6 @@ export default function App() {
   const [deferredPrompt, setDeferredPrompt] = useState<any>(null)
   const [showInstallButton, setShowInstallButton] = useState(false)
 
-  useEffect(() => {
-    const handler = (e: any) => {
-      e.preventDefault()
-      setDeferredPrompt(e)
-      setShowInstallButton(true)
-    }
-
-    window.addEventListener('beforeinstallprompt', handler)
-
-    return () => window.removeEventListener('beforeinstallprompt', handler)
-  }, [])
 
   const handleInstallClick = async () => {
     if (!deferredPrompt) return
@@ -86,12 +75,7 @@ export default function App() {
           </div>
         </div>
 
-        {/* Pesan kecil kalau sudah diinstall */}
-        {window.matchMedia('(display-mode: standalone)').matches && (
-          <div className="fixed top-4 left-1/2 -translate-x-1/2 bg-green-600 text-white px-4 py-2 rounded-full text-sm z-50 animate-pulse">
-            Aplikasi berhasil diinstall!
-          </div>
-        )}
+
       </div>
     </BrowserRouter>
   )

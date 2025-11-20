@@ -34,7 +34,6 @@ export default function App() {
       setDeferredPrompt(null)
     }
   }
-  // === End PWA Logic ===
 
   return (
     <BrowserRouter>

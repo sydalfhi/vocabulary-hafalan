@@ -12,13 +12,12 @@ export default defineConfig({
       injectRegister: "auto",
       manifest: false,
       workbox: {
-        // PRECACHE semua file penting dari awal
         globPatterns: ["**/*.{js,css,html,png,svg,json,woff2}"],
         navigateFallback: "/index.html",
         cleanupOutdatedCaches: true,
       },
       devOptions: {
-        enabled: true, // penting untuk dev
+        enabled: true,
       },
     }),
   ],

@@ -1,7 +1,7 @@
 {
     "name": "Hafalan Inggris",
     "short_name": "Hafalan",
-    "description": "Aplikasi hafalan bahasa Inggris-Indonesia offline",
+    "description": "Aplikasi hafalan bahasa Inggris-Indonesia offline by Syaid Alfarishi",
     "start_url": "/",
     "scope": "/",
     "display": "standalone",

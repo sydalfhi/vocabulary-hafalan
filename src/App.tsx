@@ -6,7 +6,6 @@ import Hafalan from './routes/Hafalan'
 import { HomeIcon, PlusCircleIcon, BookOpenIcon } from '@heroicons/react/24/outline'
 
 export default function App() {
-  // === PWA Install Button Logic ===
   const [deferredPrompt, setDeferredPrompt] = useState<any>(null)
   const [showInstallButton, setShowInstallButton] = useState(false)
 

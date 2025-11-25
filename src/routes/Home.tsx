@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react'
 import { useVocabularyStore } from '../store/useVocabularyStore'
 import { speak } from '../utils/speech'
-import { SpeakerWaveIcon } from '@heroicons/react/24/outline'
+import { SpeakerWaveIcon, ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline'
 
 export default function Home() {
     const { data } = useVocabularyStore()
@@ -26,6 +26,50 @@ export default function Home() {
 
     const paginated = filtered.slice((page - 1) * perPage, page * perPage)
     const totalPages = Math.ceil(filtered.length / perPage)
+
+    // Fungsi untuk generate pagination items (lebih compact)
+    const getPaginationItems = () => {
+        if (totalPages <= 1) return []
+
+        const items = []
+        const maxVisiblePages = 3 // Kurangi dari 5 menjadi 3 untuk mobile
+
+        if (totalPages <= maxVisiblePages) {
+            for (let i = 1; i <= totalPages; i++) {
+                items.push(i)
+            }
+        } else {
+            // Always show first page
+            items.push(1)
+
+            let start = Math.max(2, page - 1)
+            let end = Math.min(totalPages - 1, page + 1)
+
+            if (page <= 2) {
+                end = 3
+            }
+
+            if (page >= totalPages - 1) {
+                start = totalPages - 2
+            }
+
+            if (start > 2) {
+                items.push('...')
+            }
+
+            for (let i = start; i <= end; i++) {
+                items.push(i)
+            }
+
+            if (end < totalPages - 1) {
+                items.push('...')
+            }
+
+            items.push(totalPages)
+        }
+
+        return items
+    }
 
     const exportJson = () => {
         const json = JSON.stringify({ data }, null, 2)
@@ -118,18 +162,91 @@ export default function Home() {
                 </table>
             </div>
 
-            {/* Pagination */}
+            {/* Pagination Mobile Friendly */}
             {totalPages > 1 && (
-                <div className="flex justify-center gap-2 mt-4">
-                    {Array.from({ length: totalPages }, (_, i) => (
-                        <button
-                            key={i}
-                            onClick={() => setPage(i + 1)}
-                            className={`px-3 py-1 rounded ${page === i + 1 ? 'bg-cyan-600' : 'bg-slate-700'}`}
-                        >
-                            {i + 1}
-                        </button>
-                    ))}
+                <div className="mt-6">
+                    {/* Info halaman */}
+                    <div className="text-center text-sm text-slate-400 mb-3">
+                        Halaman {page} dari {totalPages} •
+                        Menampilkan {((page - 1) * perPage) + 1} - {Math.min(page * perPage, filtered.length)} dari {filtered.length} item
+                    </div>
+
+                    <div className="flex flex-col sm:flex-row items-center justify-center gap-2">
+                        {/* Navigasi utama - horizontal untuk mobile */}
+                        <div className="flex items-center gap-1 order-2 sm:order-1">
+                            {/* Previous */}
+                            <button
+                                onClick={() => setPage(page - 1)}
+                                disabled={page === 1}
+                                className="p-2 rounded bg-slate-700 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-slate-600 transition-colors"
+                                title="Sebelumnya"
+                            >
+                                <ChevronLeftIcon className="w-4 h-4" />
+                            </button>
+
+                            {/* Page numbers - compact */}
+                            {getPaginationItems().map((item, index) => (
+                                <button
+                                    key={index}
+                                    onClick={() => typeof item === 'number' && setPage(item)}
+                                    disabled={item === '...'}
+                                    className={`min-w-[36px] h-9 rounded text-sm ${item === page
+                                        ? 'bg-cyan-600 text-white'
+                                        : item === '...'
+                                            ? 'bg-transparent cursor-default'
+                                            : 'bg-slate-700 hover:bg-slate-600 transition-colors'
+                                        }`}
+                                >
+                                    {item}
+                                </button>
+                            ))}
+
+                            {/* Next */}
+                            <button
+                                onClick={() => setPage(page + 1)}
+                                disabled={page === totalPages}
+                                className="p-2 rounded bg-slate-700 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-slate-600 transition-colors"
+                                title="Selanjutnya"
+                            >
+                                <ChevronRightIcon className="w-4 h-4" />
+                            </button>
+                        </div>
+
+                        {/* Navigasi cepat - vertikal di mobile */}
+                        <div className="flex items-center gap-1 order-1 sm:order-2 mb-2 sm:mb-0">
+                            <button
+                                onClick={() => setPage(1)}
+                                disabled={page === 1}
+                                className="px-3 py-2 rounded bg-slate-700 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-slate-600 transition-colors text-xs"
+                            >
+                                First
+                            </button>
+                            <button
+                                onClick={() => setPage(totalPages)}
+                                disabled={page === totalPages}
+                                className="px-3 py-2 rounded bg-slate-700 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-slate-600 transition-colors text-xs"
+                            >
+                                Last
+                            </button>
+                        </div>
+                    </div>
+
+                    {/* Input langsung untuk desktop */}
+                    <div className="flex items-center justify-center gap-2 mt-3">
+                        <span className="text-sm text-slate-400">Lompat ke:</span>
+                        <input
+                            type="number"
+                            min="1"
+                            max={totalPages}
+                            value={page}
+                            onChange={(e) => {
+                                const newPage = Math.max(1, Math.min(totalPages, parseInt(e.target.value) || 1))
+                                setPage(newPage)
+                            }}
+                            className="w-16 px-2 py-1 bg-slate-800 rounded text-sm text-center"
+                        />
+                        <span className="text-sm text-slate-400">/ {totalPages}</span>
+                    </div>
                 </div>
             )}
         </div>

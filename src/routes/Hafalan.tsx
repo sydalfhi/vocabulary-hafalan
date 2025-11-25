@@ -11,7 +11,7 @@ export default function Hafalan() {
     const [dariHari, setDariHari] = useState(1)
     const [sampaiHari, setSampaiHari] = useState(1)
     const [isPlaying, setIsPlaying] = useState(false)
-    const [isFocusMode, setIsFocusMode] = useState(false) // ← BARU: Mode Fokus
+    const [isFocusMode, setIsFocusMode] = useState(false)
 
     // State tampilan
     const [showFirst, setShowFirst] = useState(true)
@@ -168,13 +168,6 @@ export default function Hafalan() {
                         {mode === 'manual'
                             ? 'Tap layar untuk mulai menghafal'
                             : 'Atur setting lalu tekan Play Otomatis'}
-                    </div>
-                )}
-
-                {/* Indikator kecil kalau lagi otomatis */}
-                {mode === 'otomatis' && isPlaying && !isFocusMode && (
-                    <div className="absolute top-6 left-6 bg-green-600 text-white px-4 py-2 rounded-full text-sm animate-pulse">
-                        Sedang Berjalan
                     </div>
                 )}
             </div>

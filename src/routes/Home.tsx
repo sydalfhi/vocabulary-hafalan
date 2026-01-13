@@ -136,7 +136,7 @@ export default function Home() {
                 <table className="w-full text-sm">
                     <thead>
                         <tr className="border-b border-slate-700">
-                            <th className="text-left py-2">Hari</th>
+
                             <th className="text-left py-2">English</th>
                             <th className="text-left py-2">Indonesia</th>
                             <th className="w-20"></th>
@@ -145,7 +145,7 @@ export default function Home() {
                     <tbody>
                         {paginated.map((item, idx) => (
                             <tr key={idx} className="border-b border-slate-800">
-                                <td className="py-3">{item.hariLabel}</td>
+
                                 <td className="py-3">{item.english}</td>
                                 <td className="py-3">{item.indonesia}</td>
                                 <td className="py-3 flex gap-1">

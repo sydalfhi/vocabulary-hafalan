@@ -4,6 +4,7 @@ import Home from './routes/Home'
 import InputHari from './routes/InputHari'
 import Hafalan from './routes/Hafalan'
 import { HomeIcon, PlusCircleIcon, BookOpenIcon } from '@heroicons/react/24/outline'
+import Kosakata from './routes/Kosakata'
 
 export default function App() {
   const [deferredPrompt, setDeferredPrompt] = useState<any>(null)
@@ -32,6 +33,7 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/input" element={<InputHari />} />
           <Route path="/hafalan" element={<Hafalan />} />
+          <Route path="/kosakata" element={<Kosakata />} />
         </Routes>
 
         {/* Bottom Navigation + Install Button */}
@@ -51,6 +53,10 @@ export default function App() {
             <NavLink to="/hafalan" className={({ isActive }) => `flex flex-col items-center ${isActive ? 'text-cyan-400' : 'text-gray-400'}`}>
               <BookOpenIcon className="w-7 h-7" />
               <span className="text-xs">Hafalan</span>
+            </NavLink>
+            <NavLink to="/kosakata" className={({ isActive }) => `flex flex-col items-center ${isActive ? 'text-cyan-400' : 'text-gray-400'}`}>
+              <BookOpenIcon className="w-7 h-7" />
+              <span className="text-xs">Kosakata</span>
             </NavLink>
 
             {/* Tombol Install PWA – Hanya muncul kalau bisa diinstall */}
